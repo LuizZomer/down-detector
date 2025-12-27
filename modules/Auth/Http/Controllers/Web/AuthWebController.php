@@ -9,6 +9,6 @@ class AuthWebController extends Controller
 {
     public function index()
     {
-        return Inertia::render("Auth::test");
+        return Inertia::render("Auth::login");
     }
 }
