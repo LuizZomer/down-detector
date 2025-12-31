@@ -2,11 +2,11 @@
 
 namespace Modules\Auth\Infrastructure\Services;
 
-use Modules\Auth\Domain\Services\TokenService;
+use Modules\Auth\Domain\Services\AuthenticatorService;
 use Modules\Users\Domain\Entities\User;
 use Modules\Users\Infrastructure\Persistence\Eloquent\UserModelRepository;
 
-class SanctumTokenService implements TokenService
+class SanctumAuthenticatorService implements AuthenticatorService
 {
     protected UserModelRepository $modelRepository;
 
@@ -15,7 +15,7 @@ class SanctumTokenService implements TokenService
         $this->modelRepository = $model;
     }
 
-    public function createToken(User $user): string
+    public function authenticate(User $user): string
     {
         $userModel = $this->modelRepository->findBy('id', $user->id());
 

@@ -4,7 +4,7 @@ namespace Modules\Auth\Domain\Services;
 
 use Modules\Users\Domain\Entities\User;
 
-interface TokenService
+interface AuthenticatorService
 {
-    public function createToken(User $user): string;
+    public function authenticate(User $user): ?string;
 }

@@ -3,8 +3,10 @@
 namespace Modules\Auth\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Modules\Auth\Domain\Services\TokenService;
-use Modules\Auth\Infrastructure\Services\SanctumTokenService;
+use Modules\Auth\Domain\Services\AuthenticatorService;
+use Modules\Auth\Infrastructure\Services\SanctumAuthenticatorService;
+use Modules\Auth\Infrastructure\Services\SessionAuthenticator;
+use Modules\Users\Infrastructure\Persistence\Eloquent\UserModelRepository;
 use Route;
 
 class AuthServiceProvider extends ServiceProvider
@@ -14,15 +16,19 @@ class AuthServiceProvider extends ServiceProvider
         $this->loadApiRoutes();
         $this->loadWebRoutes();
 
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'Auth');
+        $this->loadViewsFrom(__DIR__ . '/../Ui/Pages', 'Auth');
     }
 
     public function register()
     {
-        $this->app->bind(
-            TokenService::class,
-            SanctumTokenService::class
-        );
+        $this->app->bind(AuthenticatorService::class, function ($app) {
+            $userRepo = $app->make(UserModelRepository::class);
+
+            if (request()->is('api/*')) {
+                return new SanctumAuthenticatorService($userRepo);
+            }
+            return new SessionAuthenticator($userRepo);
+        });
     }
 
     private function loadApiRoutes()
