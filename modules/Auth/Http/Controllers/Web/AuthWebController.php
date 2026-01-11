@@ -3,7 +3,9 @@
 namespace Modules\Auth\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use Auth;
 use Inertia\Inertia;
+use Log;
 use Modules\Auth\Application\UseCases\LoginUseCase;
 use Modules\Auth\Domain\Services\AuthenticatorService;
 use Modules\Auth\Http\Requests\LoginRequest;
@@ -26,6 +28,6 @@ class AuthWebController extends Controller
 
         $this->loginUseCase->execute($dto, $authenticator);
 
-        return redirect()->route('auth');
+        return redirect()->intended('/teste');
     }
 }

@@ -1,13 +1,26 @@
-import { Field, FieldLabel } from "@/components/ui/field.js";
-import { Input } from "@/components/ui/input";
+import { router } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
 import { useLoginForm, type TLoginForm } from "../Hooks/Form/use-login-form.js";
+import { TextField } from "@/components/form/TextField.js";
+import { toast } from "sonner";
 
 export default function Login() {
     const methods = useLoginForm();
+    const errors = methods.formState.errors;
 
     const onSubmit = (data: TLoginForm) => {
         console.log(data);
+
+        router.post("/auth", data, {
+            onSuccess: (data) => {
+                console.log(data);
+            },
+            onError: (errors) => {
+                console.log(errors);
+                toast.error(errors.email);
+            },
+            preserveScroll: true,
+        });
     };
 
     return (
@@ -26,23 +39,26 @@ export default function Login() {
                     className="flex flex-col gap-4 max-w-2xs w-full"
                     onSubmit={methods.handleSubmit(onSubmit)}
                 >
-                    <Field>
-                        <FieldLabel htmlFor="email">Email</FieldLabel>
-                        <Input
-                            type="email"
-                            id="email"
-                            placeholder=""
-                            {...methods.register("email")}
-                        />
-                    </Field>
-                    <Field>
-                        <FieldLabel htmlFor="password">Senha</FieldLabel>
-                        <Input
-                            type="password"
-                            id="password"
-                            {...methods.register("password")}
-                        />
-                    </Field>
+                    <TextField
+                        label="Email"
+                        name="email"
+                        error={errors.email?.message}
+                        inputProps={{
+                            type: "email",
+                            placeholder: "Ex: exemplo@exemplo.com",
+                            ...methods.register("email"),
+                        }}
+                    />
+                    <TextField
+                        label="Senha"
+                        name="password"
+                        error={errors.password?.message}
+                        inputProps={{
+                            type: "password",
+                            placeholder: "Insira sua senha",
+                            ...methods.register("password"),
+                        }}
+                    />
                     <Button>Login</Button>
                 </form>
             </div>

@@ -5,7 +5,7 @@ namespace Modules\Auth\Providers;
 use Illuminate\Support\ServiceProvider;
 use Modules\Auth\Domain\Services\AuthenticatorService;
 use Modules\Auth\Infrastructure\Services\SanctumAuthenticatorService;
-use Modules\Auth\Infrastructure\Services\SessionAuthenticator;
+use Modules\Auth\Infrastructure\Services\SessionAuthenticatorService;
 use Modules\Users\Infrastructure\Persistence\Eloquent\UserModelRepository;
 use Route;
 
@@ -27,7 +27,7 @@ class AuthServiceProvider extends ServiceProvider
             if (request()->is('api/*')) {
                 return new SanctumAuthenticatorService($userRepo);
             }
-            return new SessionAuthenticator($userRepo);
+            return new SessionAuthenticatorService($userRepo);
         });
     }
 

@@ -7,7 +7,7 @@ use Modules\Auth\Domain\Services\AuthenticatorService;
 use Modules\Users\Domain\Entities\User;
 use Modules\Users\Infrastructure\Persistence\Eloquent\UserModelRepository;
 
-class SessionAuthenticator implements AuthenticatorService
+class SessionAuthenticatorService implements AuthenticatorService
 {
     public function __construct(protected UserModelRepository $modelRepository)
     {

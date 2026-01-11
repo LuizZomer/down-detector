@@ -7,9 +7,9 @@ use Modules\Auth\Http\Controllers\Api\AuthController;
 
 
 Route::prefix('auth')->group(function () {
-    Route::post('/', [AuthController::class, 'login'])->name('login');
-    
+    Route::post('/', [AuthController::class, 'login'])->name('api.login');
+
     Route::middleware('auth:sanctum')->group(function () {
-        Route::get('me', [AuthController::class,'me'])->name('me');
+        Route::get('me', [AuthController::class, 'me'])->name('api.me');
     });
 });

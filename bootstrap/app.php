@@ -2,6 +2,7 @@
 
 use App\Exceptions\EmailAlreadyExistsException;
 use App\Exceptions\InvalidCredentialException;
+use App\Http\Middleware\Authenticate;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -17,17 +18,14 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             \App\Http\Middleware\HandleInertiaRequests::class,
         ]);
+
+        $middleware->replace(
+            \Illuminate\Auth\Middleware\Authenticate::class,
+            Authenticate::class
+        );
+
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-
-        $exceptions->renderable(function (ValidationException $e, $request) {
-            $errors = $e->errors();
-
-            return response()->json([
-                'message' => collect($errors)->flatten()->first(),
-                'errors' => $errors,
-            ], $e->status);
-        });
 
         $exceptions->renderable(
             fn(EmailAlreadyExistsException $e) =>
@@ -37,11 +35,18 @@ return Application::configure(basePath: dirname(__DIR__))
             ], $e->getCode())
         );
 
-        $exceptions->renderable(
-            fn(InvalidCredentialException $e) =>
-            response()->json([
+        $exceptions->renderable(function (InvalidCredentialException $e, $request) {
+
+            if ($request->inertia() || !$request->expectsJson()) {
+                throw ValidationException::withMessages([
+                    'email' => 'Credenciais inválidas.',
+                ]);
+            }
+
+            return response()->json([
                 'type' => 'INVALID_CREDENTIAL',
                 'message' => $e->getMessage(),
-            ], $e->getCode())
-        );
+            ], 401);
+        });
+
     })->create();
