@@ -19,7 +19,7 @@ class AuthWebController extends Controller
 
     public function index()
     {
-        return Inertia::render("Auth::login");
+        return Inertia::render("Auth::Login");
     }
 
     public function login(LoginRequest $request, AuthenticatorService $authenticator)

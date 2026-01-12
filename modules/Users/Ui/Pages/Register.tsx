@@ -1,14 +1,17 @@
 import { Link, router } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
-import { useLoginForm, type TLoginForm } from "../Hooks/Form/use-login-form.js";
 import { TextField } from "@/components/form/TextField.js";
 import { toast } from "sonner";
+import {
+    useRegisterForm,
+    type TRegisterForm,
+} from "../Hooks/Form/use-register-form";
 
-export default function Login() {
-    const methods = useLoginForm();
+export default function Register() {
+    const methods = useRegisterForm();
     const errors = methods.formState.errors;
 
-    const onSubmit = (data: TLoginForm) => {
+    const onSubmit = (data: TRegisterForm) => {
         router.post("/auth", data, {
             onError: (errors) => {
                 toast.error(errors.email);
@@ -19,6 +22,10 @@ export default function Login() {
 
     return (
         <div className="flex min-h-screen bg-background text-foreground">
+            <div className="w-full h-screen">
+                <img src="/banners/loginBanner.jpg" className="h-full w-full" />
+            </div>
+
             <div className="w-1/2 flex justify-center items-center flex-col ">
                 <div className="text-center mb-8">
                     <h1 className="text-4xl font-bold tracking-tight">
@@ -26,13 +33,23 @@ export default function Login() {
                     </h1>
 
                     <p className="mt-2 text-sm text-muted-foreground">
-                        Faça login para continuar
+                        Crie sua conta para continuar
                     </p>
                 </div>
                 <form
                     className="flex flex-col gap-4 max-w-2xs w-full"
                     onSubmit={methods.handleSubmit(onSubmit)}
                 >
+                    <TextField
+                        label="Nome"
+                        name="nome"
+                        error={errors.name?.message}
+                        inputProps={{
+                            type: "text",
+                            placeholder: "Insira seu nome",
+                            ...methods.register("name"),
+                        }}
+                    />
                     <TextField
                         label="Email"
                         name="email"
@@ -53,17 +70,23 @@ export default function Login() {
                             ...methods.register("password"),
                         }}
                     />
+                    <TextField
+                        label="Confirme sua senha"
+                        name="confirmPassword"
+                        error={errors.confirmPassword?.message}
+                        inputProps={{
+                            type: "password",
+                            placeholder: "Confirme sua senha",
+                            ...methods.register("confirmPassword"),
+                        }}
+                    />
                     <Button>Login</Button>
                 </form>
                 <div className="mt-4">
-                    <Link href="/users" className="underline">
-                        Não tem conta?
+                    <Link href="/auth" className="underline">
+                        Já tem conta?
                     </Link>
                 </div>
-            </div>
-
-            <div className="w-full h-screen">
-                <img src="/banners/loginBanner.jpg" className="h-full w-full" />
             </div>
         </div>
     );
