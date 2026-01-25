@@ -6,17 +6,19 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
 use Modules\Users\Application\Dto\CreateUserDto;
 
-class CreateUserRequest extends FormRequest {
-    public function rules() {
+class CreateUserRequest extends FormRequest
+{
+    public function rules()
+    {
         return [
-            "name"=> "required|string|max:255",
+            "name" => "required|string|max:255",
             "email" => "required|email|max:255",
-            "password"=> [
-                "required", 
+            "password" => [
+                "required",
                 Password::min(8)
-                ->mixedCase()
-                ->letters()
-                ->numbers()
+                    ->mixedCase()
+                    ->letters()
+                    ->numbers()
             ],
         ];
     }
@@ -35,7 +37,8 @@ class CreateUserRequest extends FormRequest {
         ];
     }
 
-    public function toDto() {
+    public function toDto()
+    {
         $data = $this->validated();
 
         return new CreateUserDto(

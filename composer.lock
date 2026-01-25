@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5f5c2ce33c046453ae6697ee56f8e297",
+    "content-hash": "82fe0df9fa8c058f176ee08b2eeabb71",
     "packages": [
         {
             "name": "app/auth-module",
@@ -28,6 +28,33 @@
                 }
             },
             "description": "Auth bounded context",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "app/availability-module",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./modules/Availability",
+                "reference": "5393cee51d2ae759e32e5aeb8d3cb47520bac866"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\Availability\\Provider\\AvailabilityServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\Availability\\": ""
+                }
+            },
+            "description": "availability bounded context",
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -8999,6 +9026,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "app/auth-module": 20,
+        "app/availability-module": 20,
         "app/users-module": 20
     },
     "prefer-stable": true,

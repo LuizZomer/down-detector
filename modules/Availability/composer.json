@@ -1,0 +1,16 @@
+{
+    "name": "app/availability-module",
+    "description": "availability bounded context",
+    "autoload": {
+        "psr-4": {
+            "Modules\\Availability\\": ""
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Availability\\Provider\\AvailabilityServiceProvider"
+            ]
+        }
+    }
+}

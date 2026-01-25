@@ -2,7 +2,6 @@
 
 namespace Modules\Users\Infrastructure\Mappers;
 
-use Log;
 use Modules\Users\Domain\Entities\User;
 use Modules\Users\Infrastructure\Persistence\Eloquent\UserModel;
 

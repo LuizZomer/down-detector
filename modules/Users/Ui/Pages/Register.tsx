@@ -6,17 +6,21 @@ import {
     useRegisterForm,
     type TRegisterForm,
 } from "../Hooks/Form/use-register-form";
+import { useState } from "react";
 
 export default function Register() {
     const methods = useRegisterForm();
-    const errors = methods.formState.errors;
+    const { errors } = methods.formState;
+    const [loading, setLoading] = useState(false);
 
     const onSubmit = (data: TRegisterForm) => {
-        router.post("/auth", data, {
+        setLoading(true);
+        router.post("/users", data, {
             onError: (errors) => {
                 toast.error(errors.email);
             },
             preserveScroll: true,
+            onFinish: () => setLoading(false),
         });
     };
 
@@ -37,50 +41,55 @@ export default function Register() {
                     </p>
                 </div>
                 <form
-                    className="flex flex-col gap-4 max-w-2xs w-full"
                     onSubmit={methods.handleSubmit(onSubmit)}
+                    className="max-w-2xs w-full"
                 >
-                    <TextField
-                        label="Nome"
-                        name="nome"
-                        error={errors.name?.message}
-                        inputProps={{
-                            type: "text",
-                            placeholder: "Insira seu nome",
-                            ...methods.register("name"),
-                        }}
-                    />
-                    <TextField
-                        label="Email"
-                        name="email"
-                        error={errors.email?.message}
-                        inputProps={{
-                            type: "email",
-                            placeholder: "Ex: exemplo@exemplo.com",
-                            ...methods.register("email"),
-                        }}
-                    />
-                    <TextField
-                        label="Senha"
-                        name="password"
-                        error={errors.password?.message}
-                        inputProps={{
-                            type: "password",
-                            placeholder: "Insira sua senha",
-                            ...methods.register("password"),
-                        }}
-                    />
-                    <TextField
-                        label="Confirme sua senha"
-                        name="confirmPassword"
-                        error={errors.confirmPassword?.message}
-                        inputProps={{
-                            type: "password",
-                            placeholder: "Confirme sua senha",
-                            ...methods.register("confirmPassword"),
-                        }}
-                    />
-                    <Button>Login</Button>
+                    <fieldset
+                        disabled={loading}
+                        className="flex flex-col gap-4 w-full"
+                    >
+                        <TextField
+                            label="Nome"
+                            name="nome"
+                            error={errors.name?.message}
+                            inputProps={{
+                                type: "text",
+                                placeholder: "Insira seu nome",
+                                ...methods.register("name"),
+                            }}
+                        />
+                        <TextField
+                            label="Email"
+                            name="email"
+                            error={errors.email?.message}
+                            inputProps={{
+                                type: "email",
+                                placeholder: "Ex: exemplo@exemplo.com",
+                                ...methods.register("email"),
+                            }}
+                        />
+                        <TextField
+                            label="Senha"
+                            name="password"
+                            error={errors.password?.message}
+                            inputProps={{
+                                type: "password",
+                                placeholder: "Insira sua senha",
+                                ...methods.register("password"),
+                            }}
+                        />
+                        <TextField
+                            label="Confirme sua senha"
+                            name="confirmPassword"
+                            error={errors.confirmPassword?.message}
+                            inputProps={{
+                                type: "password",
+                                placeholder: "Confirme sua senha",
+                                ...methods.register("confirmPassword"),
+                            }}
+                        />
+                        <Button>Criar</Button>
+                    </fieldset>
                 </form>
                 <div className="mt-4">
                     <Link href="/auth" className="underline">

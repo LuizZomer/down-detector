@@ -4,7 +4,10 @@ import z from "zod";
 
 const schema = z
     .object({
-        name: z.string().max(100, "O nome deve ter no máximo 100 caracteres"),
+        name: z
+            .string()
+            .min(1, "O nome é obrigatório")
+            .max(100, "O nome deve ter no máximo 100 caracteres"),
         email: z.email("Email inválido"),
         password: z.string().min(6, "A senha deve ter no mínimo 6 caracteres"),
         confirmPassword: z.string(),

@@ -7,4 +7,5 @@ use Route;
 
 Route::prefix('users')->group(function () {
     Route::get('', [UserWebController::class, 'index'])->name('user');
+    Route::post('', [UserWebController::class, 'store'])->name('user.store');
 });
