@@ -15,6 +15,8 @@ import { route } from "ziggy-js";
 import { Button } from "@/components/ui/button";
 import { TableList } from "../components/TableList";
 import { EmptyAvailability } from "../components/EmptyAvailability";
+import { PlusCircle } from "lucide-react";
+import { CreateAvailabilityModal } from "../components/modals/CreateAvailabilityModal";
 
 interface ListAvailabilityProps {
     availabilities: IAvailability[];
@@ -36,13 +38,16 @@ export default function ListAvailability({
 
     return (
         <main className="p-6 space-y-6">
-            <header className="space-y-1">
-                <h1 className="text-2xl font-semibold tracking-tight">
-                    Lista de monitoramento
-                </h1>
-                <p className="text-sm text-muted-foreground">
-                    Acompanhe o status dos sites monitorados
-                </p>
+            <header className="flex justify-between items-center space-y-1 w-full">
+                <div>
+                    <h1 className="text-2xl font-semibold tracking-tight">
+                        Lista de monitoramento
+                    </h1>
+                    <p className="text-sm text-muted-foreground">
+                        Acompanhe o status dos sites monitorados
+                    </p>
+                </div>
+                <CreateAvailabilityModal />
             </header>
 
             {/* Filters */}

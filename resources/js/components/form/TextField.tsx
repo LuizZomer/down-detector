@@ -6,11 +6,23 @@ interface TextFieldProps {
     label: string;
     error?: string | undefined;
     inputProps?: React.ComponentProps<typeof Input>;
+    description?: string;
 }
 
-export function TextField({ name, label, error, inputProps }: TextFieldProps) {
+export function TextField({
+    name,
+    label,
+    error,
+    inputProps,
+    description,
+}: TextFieldProps) {
     return (
-        <FieldWrapper label={label} htmlFor={name} error={error}>
+        <FieldWrapper
+            label={label}
+            htmlFor={name}
+            error={error}
+            description={description}
+        >
             <Input id={name} aria-invalid={!!error} {...inputProps} />
         </FieldWrapper>
     );

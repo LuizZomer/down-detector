@@ -17,10 +17,11 @@
         "moduleDetection": "force",
         "skipLibCheck": true,
         "baseUrl": ".",
+        "rootDirs": ["resources/js", "modules"],
         "paths": {
             "@/*": ["resources/js/*"],
             "@modules/*": ["modules/*"]
         }
     },
-    "include": ["resources/js/**/*", "modules/**/Ui/Pages/**/*"]
+    "include": ["resources/js/**/*", "modules/**/*"]
 }
