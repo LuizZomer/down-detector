@@ -2,7 +2,7 @@
 
 namespace Modules\Availability\Application\UseCases;
 
-class GetAvailability
+class GetAvailabilityUseCase
 {
     public function __construct()
     {

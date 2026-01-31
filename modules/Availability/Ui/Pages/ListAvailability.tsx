@@ -50,7 +50,6 @@ export default function ListAvailability({
                 <CreateAvailabilityModal />
             </header>
 
-            {/* Filters */}
             <form
                 onSubmit={handleSubmitFilter}
                 className="flex flex-wrap items-end gap-4 rounded-lg border bg-background p-4 shadow-sm"

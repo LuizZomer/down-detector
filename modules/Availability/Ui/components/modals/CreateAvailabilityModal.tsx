@@ -15,74 +15,122 @@ import {
     useAvailabilityForm,
     type TAvailabilitySchema,
 } from "../../hooks/form/useAvailabilityForm";
+import { CheckboxField } from "@/components/form/CheckboxField";
+import { router } from "@inertiajs/react";
+import { Controller } from "react-hook-form";
 
-export const CreateAvailabilityModal = () => {
+export const CreateAvailabilityModal = ({}) => {
     const {
         handleSubmit,
         register,
+        control,
         formState: { errors },
     } = useAvailabilityForm();
 
     const onSubmit = (data: TAvailabilitySchema) => {
-        console.log(data);
+        const payload = {
+            ...data,
+            frequency: Number(data.frequency),
+            sendEmail: data.sendEmail === "true",
+        };
+
+        // router.post("", data);
     };
 
     return (
         <Dialog>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <DialogTrigger asChild>
-                    <Button>
-                        Criar monitoramento <PlusCircle />
-                    </Button>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-106.25">
+            <DialogTrigger asChild>
+                <Button>
+                    Criar monitoramento <PlusCircle />
+                </Button>
+            </DialogTrigger>
+
+            <DialogContent className="sm:max-w-106.25">
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <DialogHeader>
                         <DialogTitle>Criar um novo monitoramento</DialogTitle>
+                        <DialogDescription>
+                            Configure como o site será monitorado e como você
+                            deseja receber alertas.
+                        </DialogDescription>
                     </DialogHeader>
+
                     <div className="grid gap-4">
-                        <div className="grid gap-3">
-                            <TextField
-                                label="Nome"
-                                name="name"
-                                error={errors.name?.message}
-                                inputProps={{
-                                    placeholder: "Ex: Site Exemplo",
-                                    ...register("name"),
-                                }}
-                            />
-                        </div>
-                        <div className="grid gap-3">
-                            <TextField
-                                label="Url"
-                                name="url"
-                                error={errors.url?.message}
-                                inputProps={{
-                                    placeholder: "Ex: site@exemplo.com",
-                                    ...register("url"),
-                                }}
-                            />
-                        </div>
-                        <div className="grid gap-3">
-                            <TextField
-                                label="Frequência"
-                                name="frequency"
-                                error={errors.frequency?.message}
-                                inputProps={{
-                                    placeholder: "Ex: 2",
-                                    ...register("frequency"),
-                                }}
-                                description="Informe o intervalo em segundos (ex: 30 = 30s, 60 = 1 minuto)"
-                            />
+                        <div className="grid gap-4">
+                            <div className="grid gap-3">
+                                <TextField
+                                    label="Nome"
+                                    name="name"
+                                    error={errors.name?.message}
+                                    inputProps={{
+                                        placeholder: "Ex: Site Exemplo",
+                                        ...register("name"),
+                                    }}
+                                />
+                            </div>
+                            <div className="grid gap-3">
+                                <TextField
+                                    label="Url"
+                                    name="url"
+                                    error={errors.url?.message}
+                                    inputProps={{
+                                        placeholder: "Ex: site@exemplo.com",
+                                        ...register("url"),
+                                    }}
+                                />
+                            </div>
+                            <div className="grid gap-3">
+                                <TextField
+                                    label="Frequência"
+                                    name="frequency"
+                                    error={errors.frequency?.message}
+                                    inputProps={{
+                                        type: "number",
+                                        placeholder: "Ex: 2",
+                                        ...register("frequency"),
+                                    }}
+                                    description="Informe o intervalo em segundos (ex: 30 = 30s, 60 = 1 minuto)"
+                                />
+                            </div>
+                            <div className="grid gap-3">
+                                <Controller
+                                    name="sendEmail"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <CheckboxField
+                                            name="sendEmail"
+                                            label="Me avisar por email quando o site ficar indisponível"
+                                            error={errors.sendEmail?.message}
+                                            inputProps={{
+                                                checked:
+                                                    String(field.value) ===
+                                                    "true",
+                                                onCheckedChange: (checked) => {
+                                                    field.onChange(
+                                                        checked
+                                                            ? "true"
+                                                            : "false",
+                                                    );
+                                                },
+                                            }}
+                                        />
+                                    )}
+                                />
+                            </div>
                         </div>
                     </div>
+
                     <DialogFooter>
                         <DialogClose asChild>
-                            <Button variant="outline">Cancelar</Button>
+                            <Button type="button" variant="outline">
+                                Cancelar
+                            </Button>
                         </DialogClose>
+
                         <Button type="submit">Salvar</Button>
                     </DialogFooter>
-                </DialogContent>
-            </form>
+                </form>
+            </DialogContent>
         </Dialog>
     );
 };
