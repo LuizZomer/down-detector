@@ -1,4 +1,4 @@
-import { router } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 import { route } from "ziggy-js";
 import {
     Select,
@@ -10,10 +10,23 @@ import {
 import { useState } from "react";
 import { MonitoringStatusEnum } from "../types/Availability";
 import { Button } from "@/components/ui/button";
+import type { PageProps } from "@/types/page";
+import { getQueryParam } from "@/utils/getQueryParam";
+import { createClearableSelectHandler } from "@/utils/handleSelectWithClear";
+
+export interface AvailabilityPageProps extends PageProps {
+    filters: {
+        status?: MonitoringStatusEnum;
+    };
+}
 
 export const AvailabilityFilterList = () => {
+    const initialStatus = getQueryParam(
+        "status",
+    ) as MonitoringStatusEnum | null;
+
     const [selectedStatus, setSelectedStatus] =
-        useState<MonitoringStatusEnum | null>();
+        useState<MonitoringStatusEnum | null>(initialStatus);
 
     const handleSubmitFilter = (e: React.FormEvent) => {
         e.preventDefault();
@@ -33,13 +46,18 @@ export const AvailabilityFilterList = () => {
                 <Select
                     value={selectedStatus || ""}
                     onValueChange={(value) =>
-                        setSelectedStatus(value as MonitoringStatusEnum)
+                        createClearableSelectHandler(
+                            setSelectedStatus,
+                            "clear",
+                            value as MonitoringStatusEnum,
+                        )
                     }
                 >
                     <SelectTrigger className="w-50">
                         <SelectValue placeholder="Selecione" />
                     </SelectTrigger>
                     <SelectContent>
+                        <SelectItem value="clear">Limpar</SelectItem>
                         <SelectItem value={MonitoringStatusEnum.ACTIVE}>
                             Ativo
                         </SelectItem>

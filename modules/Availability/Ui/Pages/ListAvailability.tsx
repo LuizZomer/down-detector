@@ -37,7 +37,6 @@ export default function ListAvailability({
 
             <AvailabilityFilterList />
 
-            {/* Table */}
             <section className="rounded-lg border bg-background p-4 shadow-sm">
                 {availabilities.data.length === 0 ? (
                     <EmptyAvailability />

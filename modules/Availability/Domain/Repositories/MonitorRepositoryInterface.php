@@ -14,7 +14,7 @@ interface MonitorRepositoryInterface
 
     public function hasMonitor(int $id): bool;
 
-    public function paginate(int $perPage = 10): LengthAwarePaginator;
+    public function paginate(array $filters, int $perPage = 10): LengthAwarePaginator;
 
     public function create(Monitor $monitor);
 

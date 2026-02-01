@@ -30,10 +30,15 @@ class MonitorRepository implements MonitorRepositoryInterface
         return MonitorModel::where('id', $id)->exists();
     }
 
-    public function paginate(int $perPage = 10): LengthAwarePaginator
+    public function paginate(array $filters, int $perPage = 10): LengthAwarePaginator
     {
         $paginator = MonitorModel::query()
             ->where('user_id', Auth::id())
+            ->when(
+                $filters['status'] ?? null,
+                fn($query, $status) =>
+                $query->where('monitoring_status', $status)
+            )
             ->paginate($perPage);
 
         $paginator->setCollection(

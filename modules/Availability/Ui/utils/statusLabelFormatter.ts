@@ -7,7 +7,7 @@ export const statusLabelFormatter = (
         case MonitoringStatusEnum.ACTIVE:
             return { label: "Ativo", bgColor: "bg-green-600" };
         case MonitoringStatusEnum.PAUSED:
-            return { label: "Desativado", bgColor: "bg-red-600" };
+            return { label: "Pausado", bgColor: "bg-red-600" };
         default:
             return { label: "Desconhecido", bgColor: "" };
     }

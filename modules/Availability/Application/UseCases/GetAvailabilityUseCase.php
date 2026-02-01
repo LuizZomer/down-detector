@@ -15,7 +15,7 @@ class GetAvailabilityUseCase
 
     public function execute(array $filters)
     {
-        $availabilities = $this->monitorRepository->paginate();
+        $availabilities = $this->monitorRepository->paginate($filters);
 
         return ['availabilities' => $availabilities];
     }
