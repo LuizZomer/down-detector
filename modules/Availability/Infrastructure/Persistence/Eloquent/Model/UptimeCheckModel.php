@@ -32,6 +32,6 @@ class UptimeCheckModel extends Model
 
     public function monitor(): BelongsTo
     {
-        return $this->belongsTo(Monitor::class);
+        return $this->belongsTo(MonitorModel::class);
     }
 }

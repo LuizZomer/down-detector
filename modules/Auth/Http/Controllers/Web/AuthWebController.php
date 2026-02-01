@@ -28,6 +28,6 @@ class AuthWebController extends Controller
 
         $this->loginUseCase->execute($dto, $authenticator);
 
-        return redirect()->intended('/teste');
+        return redirect()->intended('/availability');
     }
 }

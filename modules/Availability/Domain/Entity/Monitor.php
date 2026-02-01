@@ -3,12 +3,13 @@
 namespace Modules\Availability\Domain\Entity;
 
 use DateTime;
+use Modules\Availability\Application\Dto\StoreAvailabilityDto;
 use Modules\Availability\Domain\ValueObjects\MonitoringStatusEnum;
 
 class Monitor
 {
     public function __construct(
-        public readonly int $id,
+        public readonly ?int $id,
         public readonly string $name,
         public readonly string $url,
         public readonly bool $errorSendEmail,
@@ -21,5 +22,23 @@ class Monitor
         public readonly ?DateTime $createdAt,
         public readonly ?DateTime $updatedAt,
     ) {
+    }
+
+    public static function fromStoreDto(StoreAvailabilityDto $dto): self
+    {
+        return new self(
+            id: null,
+            name: $dto->name,
+            url: $dto->url,
+            errorSendEmail: $dto->errorSendEmail,
+            lastCheckedAt: null,
+            lastCheckStatus: null,
+            lastResponseTimeMs: null,
+            frequencySeconds: $dto->frequencySeconds,
+            monitoringStatus: MonitoringStatusEnum::ACTIVE,
+            userId: $dto->userId,
+            createdAt: null,
+            updatedAt: null,
+        );
     }
 }

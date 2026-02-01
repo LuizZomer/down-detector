@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Availability\Http\Request;
+namespace Modules\Availability\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -38,7 +38,7 @@ class StoreAvailabilityRequest extends FormRequest
 
             'sendEmail' => [
                 'required',
-                'in:true,false',
+                'boolean',
             ],
         ];
     }
@@ -63,7 +63,7 @@ class StoreAvailabilityRequest extends FormRequest
 
             'sendEmail.required' =>
                 'Informe se deseja receber notificações por e-mail.',
-            'sendEmail.in' =>
+            'sendEmail.boolean' =>
                 'O valor informado para notificações por e-mail é inválido.',
         ];
     }

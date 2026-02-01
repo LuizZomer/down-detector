@@ -6,17 +6,17 @@ use Modules\Availability\Application\Dto\StoreAvailabilityDto;
 use Modules\Availability\Domain\Entity\Monitor;
 use Modules\Availability\Domain\Repositories\MonitorRepositoryInterface;
 
-class GetAvailabilityUseCase
+class CreateAvailabilityUseCase
 {
     public function __construct(
         private MonitorRepositoryInterface $monitorRepository,
     ) {
     }
 
-    public function execute(array $filters)
+    public function execute(StoreAvailabilityDto $dto)
     {
-        $availabilities = $this->monitorRepository->paginate();
+        $monitor = Monitor::fromStoreDto($dto);
 
-        return ['availabilities' => $availabilities];
+        return $this->monitorRepository->create($monitor);
     }
 }

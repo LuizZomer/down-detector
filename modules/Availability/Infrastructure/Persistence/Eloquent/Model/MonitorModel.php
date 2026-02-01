@@ -11,6 +11,8 @@ use Modules\Users\Domain\Entities\User;
 
 class MonitorModel extends Model
 {
+    protected $table = 'monitors';
+
     protected $fillable = [
         'name',
         'url',
@@ -28,8 +30,8 @@ class MonitorModel extends Model
         'last_checked_at' => 'datetime',
         'last_response_time_ms' => 'integer',
         'frequency_seconds' => 'integer',
-        'last_check_status' => CheckStatus::class,
-        'monitoring_status' => MonitoringStatus::class,
+        'last_check_status' => CheckStatusEnum::class,
+        'monitoring_status' => MonitoringStatusEnum::class,
     ];
 
     /* ======================
@@ -43,7 +45,7 @@ class MonitorModel extends Model
 
     public function uptimeChecks(): HasMany
     {
-        return $this->hasMany(UptimeCheck::class);
+        return $this->hasMany(UptimeCheckModel::class);
     }
 
     /* ======================

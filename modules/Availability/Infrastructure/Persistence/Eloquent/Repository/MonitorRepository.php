@@ -7,6 +7,7 @@ use Illuminate\Support\Collection;
 use Modules\Availability\Domain\Repositories\MonitorRepositoryInterface;
 use Modules\Availability\Infrastructure\Mapper\MonitorMapper;
 use Modules\Availability\Infrastructure\Persistence\Eloquent\Model\MonitorModel;
+use Modules\Availability\Domain\Entity\Monitor;
 
 class MonitorRepository implements MonitorRepositoryInterface
 {
@@ -29,5 +30,12 @@ class MonitorRepository implements MonitorRepositoryInterface
         );
 
         return $paginator;
+    }
+
+    public function create(Monitor $monitor)
+    {
+        $data = MonitorMapper::entityToModel($monitor);
+
+        return MonitorModel::create($data);
     }
 }

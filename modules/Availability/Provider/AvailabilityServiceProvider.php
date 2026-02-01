@@ -2,7 +2,7 @@
 
 namespace Modules\Availability\Provider;
 
-use Carbon\Laravel\ServiceProvider;
+use Illuminate\Support\ServiceProvider;
 use Modules\Availability\Domain\Repositories\MonitorRepositoryInterface;
 use Modules\Availability\Infrastructure\Persistence\Eloquent\Repository\MonitorRepository;
 use Route;

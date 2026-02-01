@@ -32,4 +32,22 @@ class MonitorMapper
             fn(MonitorModel $model) => self::modelToEntity($model)
         );
     }
+
+    public static function entityToModel(Monitor $monitor): array
+    {
+        return [
+            'id' => $monitor->id,
+            'name' => $monitor->name,
+            'url' => $monitor->url,
+            'error_send_email' => $monitor->errorSendEmail,
+            'last_checked_at' => $monitor->lastCheckedAt,
+            'last_check_status' => $monitor->lastCheckStatus,
+            'last_response_time_ms' => $monitor->lastResponseTimeMs,
+            'frequency_seconds' => $monitor->frequencySeconds,
+            'monitoring_status' => $monitor->monitoringStatus->value,
+            'user_id' => $monitor->userId,
+            'created_at' => $monitor->createdAt,
+            'updated_at' => $monitor->updatedAt,
+        ];
+    }
 }

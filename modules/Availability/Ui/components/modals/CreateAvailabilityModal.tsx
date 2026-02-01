@@ -18,12 +18,21 @@ import {
 import { CheckboxField } from "@/components/form/CheckboxField";
 import { router } from "@inertiajs/react";
 import { Controller } from "react-hook-form";
+import { route } from "ziggy-js";
+import { useState } from "react";
 
-export const CreateAvailabilityModal = ({}) => {
+export const CreateAvailabilityModal = ({
+    trigger,
+}: {
+    trigger: React.ReactNode;
+}) => {
+    const [open, setOpen] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const {
         handleSubmit,
         register,
         control,
+        reset,
         formState: { errors },
     } = useAvailabilityForm();
 
@@ -34,16 +43,29 @@ export const CreateAvailabilityModal = ({}) => {
             sendEmail: data.sendEmail === "true",
         };
 
-        // router.post("", data);
+        setIsSubmitting(true);
+
+        router.post(route("availability.store"), payload, {
+            onSuccess: () => {
+                reset();
+                setOpen(false);
+            },
+            onFinish: () => {
+                setIsSubmitting(false);
+            },
+        });
+    };
+
+    const handleOpenChange = (isOpen: boolean) => {
+        if (!isOpen) {
+            reset();
+        }
+        setOpen(isOpen);
     };
 
     return (
-        <Dialog>
-            <DialogTrigger asChild>
-                <Button>
-                    Criar monitoramento <PlusCircle />
-                </Button>
-            </DialogTrigger>
+        <Dialog open={open} onOpenChange={handleOpenChange}>
+            <DialogTrigger asChild>{trigger}</DialogTrigger>
 
             <DialogContent className="sm:max-w-106.25">
                 <form onSubmit={handleSubmit(onSubmit)}>
@@ -126,8 +148,9 @@ export const CreateAvailabilityModal = ({}) => {
                                 Cancelar
                             </Button>
                         </DialogClose>
-
-                        <Button type="submit">Salvar</Button>
+                        <Button type="submit" disabled={isSubmitting}>
+                            {isSubmitting ? "Salvando..." : "Salvar"}
+                        </Button>
                     </DialogFooter>
                 </form>
             </DialogContent>

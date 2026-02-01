@@ -1,5 +1,6 @@
 import { Globe, PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { CreateAvailabilityModal } from "./modals/CreateAvailabilityModal";
 
 export const EmptyAvailability = () => (
     <div className="flex flex-col items-center justify-center rounded-lg border border-dashed p-10 text-center">
@@ -12,9 +13,13 @@ export const EmptyAvailability = () => (
             adicionando o primeiro e acompanhe a disponibilidade em tempo real.
         </p>
 
-        <Button className="mt-6" variant="default">
-            <PlusCircle className="mr-2 h-4 w-4" />
-            Adicionar site
-        </Button>
+        <CreateAvailabilityModal
+            trigger={
+                <Button className="mt-6" variant="default">
+                    <PlusCircle className="mr-2 h-4 w-4" />
+                    Adicionar site
+                </Button>
+            }
+        />
     </div>
 );
