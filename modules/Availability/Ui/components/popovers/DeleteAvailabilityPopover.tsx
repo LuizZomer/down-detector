@@ -36,12 +36,14 @@ export const DeleteAvailabilityPopover = ({
                         Deseja deletar o monitoramento {title}?
                     </PopoverTitle>
                     <PopoverDescription>
-                        <div className="flex flex-col gap-2">
-                            <p>O monitoramento será removido permanentemente</p>
-                            <Button onClick={handleDelete}>Confirmar</Button>
-                        </div>
+                        O monitoramento será removido permanentemente
                     </PopoverDescription>
                 </PopoverHeader>
+                <div className="mt-3 w-full flex justify-end gap-2 mt-4">
+                    <Button onClick={handleDelete} variant="destructive">
+                        Apagar
+                    </Button>
+                </div>
             </PopoverContent>
         </Popover>
     );

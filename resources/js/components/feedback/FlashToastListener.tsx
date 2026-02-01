@@ -7,7 +7,6 @@ export function FlashToastListener() {
     const { flash } = usePage<PageProps>().props;
 
     useEffect(() => {
-        console.log(flash);
         if (flash?.success) {
             toast.success(flash.success);
         }
