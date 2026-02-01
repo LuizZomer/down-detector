@@ -7,8 +7,10 @@ use Route;
 
 Route::middleware('web')->group(function () {
     Route::middleware('auth')->group(function () {
-        Route::get('/availability', [AvailabilityWebController::class, 'index'])->name('availability.index');
-        Route::post('/availability', [AvailabilityWebController::class, 'store'])->name('availability.store');
-        Route::delete('/availability', [AvailabilityWebController::class, 'delete'])->name('availability.delete');
+        Route::prefix('/availability')->group(function () {
+            Route::get('', [AvailabilityWebController::class, 'index'])->name('availability.index');
+            Route::post('', [AvailabilityWebController::class, 'store'])->name('availability.store');
+            Route::delete('{id}', [AvailabilityWebController::class, 'delete'])->name('availability.delete');
+        });
     });
 });

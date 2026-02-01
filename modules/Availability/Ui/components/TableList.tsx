@@ -84,6 +84,7 @@ export const TableList = ({
                                 </Button>
                                 <DeleteAvailabilityPopover
                                     title={availability.name}
+                                    id={availability.id}
                                 />
                             </div>
                         </TableCell>

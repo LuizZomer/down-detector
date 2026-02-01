@@ -54,9 +54,8 @@ class MonitorRepository implements MonitorRepositoryInterface
 
     public function softDeleteOrFail(int $id): void
     {
-        if (MonitorModel::where('id', $id)->delete() === 0) {
+        if (MonitorModel::where('id', $id)->where('user_id', Auth::id())->delete() === 0) {
             throw new ModelNotFoundException();
         }
     }
-
 }

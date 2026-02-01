@@ -14,10 +14,3 @@ Route::prefix('auth')->group(function () {
         ->name('login.store');
 });
 
-
-Route::middleware('auth')->group(function () {
-    Route::get('/teste', function () {
-        return Inertia::render("Auth::teste", ['name' => Auth::user()->name]);
-    });
-});
-

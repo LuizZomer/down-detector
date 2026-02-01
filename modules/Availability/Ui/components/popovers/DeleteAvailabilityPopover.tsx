@@ -7,11 +7,20 @@ import {
     PopoverTitle,
     PopoverTrigger,
 } from "@/components/ui/popover";
+import { router, usePage } from "@inertiajs/react";
 import { Trash } from "lucide-react";
+import { toast } from "sonner";
+import { route } from "ziggy-js";
 
-export const DeleteAvailabilityPopover = ({ title }: { title: string }) => {
+export const DeleteAvailabilityPopover = ({
+    title,
+    id,
+}: {
+    title: string;
+    id: number;
+}) => {
     const handleDelete = () => {
-        console.log("Apagado");
+        router.delete(route("availability.delete", id));
     };
 
     return (
