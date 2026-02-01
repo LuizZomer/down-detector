@@ -10,7 +10,13 @@ interface MonitorRepositoryInterface
 {
     public function getAll(): Collection;
 
+    public function getById(int $id): Collection;
+
+    public function hasMonitor(int $id): bool;
+
     public function paginate(int $perPage = 10): LengthAwarePaginator;
 
     public function create(Monitor $monitor);
+
+    public function softDeleteOrFail(int $id): void;
 }

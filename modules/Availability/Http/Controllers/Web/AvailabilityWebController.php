@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Log;
 use Modules\Availability\Application\UseCases\CreateAvailabilityUseCase;
+use Modules\Availability\Application\UseCases\DeleteAvailabilityUseCase;
 use Modules\Availability\Application\UseCases\GetAvailabilityUseCase;
 use Modules\Availability\Http\Requests\StoreAvailabilityRequest;
 
@@ -14,6 +15,7 @@ class AvailabilityWebController
     public function __construct(
         private GetAvailabilityUseCase $getAvailabilityUseCase,
         private CreateAvailabilityUseCase $createAvailabilityUseCase,
+        private DeleteAvailabilityUseCase $deleteAvailabilityUseCase,
     ) {
     }
 
@@ -34,8 +36,13 @@ class AvailabilityWebController
 
         $this->createAvailabilityUseCase->execute($dto);
 
-        Log::info('deu bom');
-
         return back()->with('success', 'Monitoramento criado com sucesso!');
+    }
+
+    public function delete(int $id)
+    {
+        $this->deleteAvailabilityUseCase->execute($id);
+
+        return back()->with('success', 'Monitoramento deletado com sucesso!');
     }
 }

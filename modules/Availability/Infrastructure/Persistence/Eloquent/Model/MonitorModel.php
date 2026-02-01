@@ -2,15 +2,19 @@
 
 namespace Modules\Availability\Infrastructure\Persistence\Eloquent\Model;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Availability\Domain\ValueObjects\CheckStatusEnum;
 use Modules\Availability\Domain\ValueObjects\MonitoringStatusEnum;
 use Modules\Users\Domain\Entities\User;
 
 class MonitorModel extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'monitors';
 
     protected $fillable = [
@@ -33,6 +37,15 @@ class MonitorModel extends Model
         'last_check_status' => CheckStatusEnum::class,
         'monitoring_status' => MonitoringStatusEnum::class,
     ];
+
+    protected $hidden = ['deleted_at'];
+
+    protected static function booted(): void
+    {
+        static::addGlobalScope('ignore_deleted', function (Builder $builder) {
+            $builder->whereNull('deleted_at');
+        });
+    }
 
     /* ======================
      | Relationships

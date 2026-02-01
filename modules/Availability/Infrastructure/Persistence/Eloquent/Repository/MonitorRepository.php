@@ -2,6 +2,8 @@
 
 namespace Modules\Availability\Infrastructure\Persistence\Eloquent\Repository;
 
+use Auth;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Modules\Availability\Domain\Repositories\MonitorRepositoryInterface;
@@ -18,10 +20,21 @@ class MonitorRepository implements MonitorRepositoryInterface
         );
     }
 
+    public function getById(int $id): Collection
+    {
+        return MonitorModel::where('id', $id)->first();
+    }
+
+    public function hasMonitor(int $id): bool
+    {
+        return MonitorModel::where('id', $id)->exists();
+    }
 
     public function paginate(int $perPage = 10): LengthAwarePaginator
     {
-        $paginator = MonitorModel::query()->paginate($perPage);
+        $paginator = MonitorModel::query()
+            ->where('user_id', Auth::id())
+            ->paginate($perPage);
 
         $paginator->setCollection(
             MonitorMapper::collectionToEntities(
@@ -38,4 +51,12 @@ class MonitorRepository implements MonitorRepositoryInterface
 
         return MonitorModel::create($data);
     }
+
+    public function softDeleteOrFail(int $id): void
+    {
+        if (MonitorModel::where('id', $id)->delete() === 0) {
+            throw new ModelNotFoundException();
+        }
+    }
+
 }
