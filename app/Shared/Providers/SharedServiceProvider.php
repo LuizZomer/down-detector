@@ -2,7 +2,9 @@
 
 namespace App\Shared\Providers;
 
+use App\Shared\Domain\Services\HttpClientInterface;
 use App\Shared\Infraestructure\Service\BcryptPasswordHasher;
+use App\Shared\Infraestructure\Service\LaravelHttpClient;
 use Dedoc\Scramble\Scramble;
 use Dedoc\Scramble\Support\Generator\OpenApi;
 use Dedoc\Scramble\Support\Generator\SecurityScheme;
@@ -29,6 +31,10 @@ class SharedServiceProvider extends ServiceProvider
         $this->app->bind(
             PasswordHasher::class,
             BcryptPasswordHasher::class
+        );
+        $this->app->bind(
+            HttpClientInterface::class,
+            LaravelHttpClient::class
         );
     }
 }

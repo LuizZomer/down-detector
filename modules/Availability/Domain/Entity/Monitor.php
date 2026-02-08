@@ -24,6 +24,11 @@ class Monitor
     ) {
     }
 
+    public function isActive(): bool
+    {
+        return $this->monitoringStatus === MonitoringStatusEnum::ACTIVE;
+    }
+
     public static function fromStoreDto(StoreAvailabilityDto $dto): self
     {
         return new self(
