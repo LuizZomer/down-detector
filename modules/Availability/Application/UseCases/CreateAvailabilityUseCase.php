@@ -5,6 +5,7 @@ namespace Modules\Availability\Application\UseCases;
 use Modules\Availability\Application\Dto\StoreAvailabilityDto;
 use Modules\Availability\Domain\Entity\Monitor;
 use Modules\Availability\Domain\Repositories\MonitorRepositoryInterface;
+use Modules\Availability\Infrastructure\Jobs\CheckMonitorUptimeJob;
 
 class CreateAvailabilityUseCase
 {
@@ -15,8 +16,12 @@ class CreateAvailabilityUseCase
 
     public function execute(StoreAvailabilityDto $dto)
     {
-        $monitor = Monitor::fromStoreDto($dto);
+        $monitorForStore = Monitor::fromStoreDto($dto);
 
-        return $this->monitorRepository->create($monitor);
+        $monitor = $this->monitorRepository->create($monitorForStore);
+
+        CheckMonitorUptimeJob::dispatch($monitor->id);
+
+        return $monitor;
     }
 }
