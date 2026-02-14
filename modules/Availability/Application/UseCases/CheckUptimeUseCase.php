@@ -6,6 +6,7 @@ use App\Shared\Domain\Services\HttpClientInterface;
 use DateTimeImmutable;
 use Exception;
 use Http;
+use Modules\Availability\Application\Dto\UpdateMonitorData;
 use Modules\Availability\Domain\Entity\UptimeCheck;
 use Modules\Availability\Domain\Repositories\MonitorRepositoryInterface;
 use Modules\Availability\Domain\ValueObjects\CheckStatusEnum;
@@ -18,9 +19,9 @@ class CheckUptimeUseCase
     ) {
     }
 
-    public function execute(int $monitor)
+    public function execute(int $monitorId)
     {
-        $monitor = $this->repository->getById($monitor);
+        $monitor = $this->repository->getById($monitorId);
 
         if (!$monitor || !$monitor->isActive()) {
             return;
@@ -43,10 +44,6 @@ class CheckUptimeUseCase
                 monitorId: $monitor->id,
                 createdAt: new DateTimeImmutable()
             );
-
-
-            $this->repository->createUptime($uptimeCheck);
-
         } catch (Exception $e) {
             $uptimeCheck = new UptimeCheck(
                 responseTimeMs: 0,
@@ -56,8 +53,13 @@ class CheckUptimeUseCase
                 monitorId: $monitor->id,
                 createdAt: new DateTimeImmutable()
             );
-
-            $this->repository->createUptime($uptimeCheck);
         }
+
+        $this->repository->createUptime($uptimeCheck);
+        $this->repository->update($monitorId, new UpdateMonitorData(
+            lastCheckedAt: new DateTimeImmutable(),
+            lastCheckStatus: $uptimeCheck->status,
+            lastResponseTimeMs: $uptimeCheck->responseTimeMs
+        ));
     }
 }

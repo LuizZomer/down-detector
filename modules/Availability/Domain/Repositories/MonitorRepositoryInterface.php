@@ -4,7 +4,7 @@ namespace Modules\Availability\Domain\Repositories;
 
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
-use Modules\Availability\Application\DTO\UpdateMonitorData;
+use Modules\Availability\Application\Dto\UpdateMonitorData;
 use Modules\Availability\Domain\Entity\Monitor;
 use Modules\Availability\Domain\Entity\UptimeCheck;
 use Modules\Availability\Infrastructure\Persistence\Eloquent\Model\MonitorModel;

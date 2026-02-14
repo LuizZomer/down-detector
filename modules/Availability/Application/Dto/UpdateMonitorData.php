@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Availability\Application\DTO;
+namespace Modules\Availability\Application\Dto;
 
 use DateTimeImmutable;
 use Modules\Availability\Domain\ValueObjects\CheckStatusEnum;

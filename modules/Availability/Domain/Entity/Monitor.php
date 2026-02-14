@@ -4,6 +4,7 @@ namespace Modules\Availability\Domain\Entity;
 
 use DateTime;
 use Modules\Availability\Application\Dto\StoreAvailabilityDto;
+use Modules\Availability\Domain\ValueObjects\CheckStatusEnum;
 use Modules\Availability\Domain\ValueObjects\MonitoringStatusEnum;
 
 class Monitor
@@ -14,7 +15,7 @@ class Monitor
         public readonly string $url,
         public readonly bool $errorSendEmail,
         public readonly ?DateTime $lastCheckedAt,
-        public readonly ?string $lastCheckStatus,
+        public readonly ?CheckStatusEnum $lastCheckStatus,
         public readonly ?int $lastResponseTimeMs,
         public readonly int $frequencySeconds,
         public readonly MonitoringStatusEnum $monitoringStatus,
