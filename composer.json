@@ -77,6 +77,10 @@
         ],
         "pre-package-uninstall": [
             "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall"
+        ],
+        "setup-dev": [
+            "php artisan migrate:fresh --seed",
+            "php artisan horizon"
         ]
     },
     "extra": {

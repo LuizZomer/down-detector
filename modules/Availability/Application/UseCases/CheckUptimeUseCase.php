@@ -29,7 +29,10 @@ class CheckUptimeUseCase
         $startTime = microtime(true);
 
         try {
-            $response = Http::get($monitor->url);
+            $response = $this->httpClient->get($monitor->url);
+
+            \Log::Debug("response", [$response]);
+
             $duration = (int) ((microtime(true) - $startTime) * 1000);
 
             $uptimeCheck = new UptimeCheck(
@@ -40,6 +43,7 @@ class CheckUptimeUseCase
                 monitorId: $monitor->id,
                 createdAt: new DateTimeImmutable()
             );
+
 
             $this->repository->createUptime($uptimeCheck);
 

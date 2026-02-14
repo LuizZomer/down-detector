@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Availability\Jobs;
+namespace Modules\Availability\Infrastructure\Jobs;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -15,11 +15,11 @@ class CheckMonitorUptimeJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $queue = 'uptime';
 
     public function __construct(
         private readonly int $monitorId
     ) {
+        $this->onQueue('uptime');
     }
 
     public function middleware(): array
@@ -31,6 +31,8 @@ class CheckMonitorUptimeJob implements ShouldQueue
 
     public function handle(CheckUptimeUseCase $useCase)
     {
+        \Log::info("Checking uptime for monitor ID: {$this->monitorId}");
+
         $useCase->execute($this->monitorId);
 
         $monitor = MonitorModel::find($this->monitorId);

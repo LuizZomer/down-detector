@@ -2,12 +2,13 @@
 
 namespace Modules\Availability\Infrastructure\Persistence\Eloquent\Model;
 
-use App\Enums\CheckStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Modules\Availability\Domain\ValueObjects\CheckStatusEnum;
 
 class UptimeCheckModel extends Model
 {
+    public $table = 'uptime_checks';
     public $timestamps = false;
 
     protected $fillable = [
@@ -22,7 +23,7 @@ class UptimeCheckModel extends Model
     protected $casts = [
         'response_time_ms' => 'integer',
         'http_status_code' => 'integer',
-        'status' => CheckStatus::class,
+        'status' => CheckStatusEnum::class,
         'created_at' => 'datetime',
     ];
 

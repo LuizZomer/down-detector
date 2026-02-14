@@ -4,8 +4,8 @@ use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schedule;
 use Modules\Availability\Domain\ValueObjects\MonitoringStatusEnum;
+use Modules\Availability\Infrastructure\Jobs\CheckMonitorUptimeJob;
 use Modules\Availability\Infrastructure\Persistence\Eloquent\Model\MonitorModel;
-use Modules\Availability\Jobs\CheckMonitorUptimeJob;
 
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
